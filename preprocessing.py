@@ -38,44 +38,44 @@ def load_data(data):
     })
     return df
 
-def smart_preprocessing(text, hashtag=0, emoji=0, smiley=0, lemma=1, stop=0, bow=1, nut=0):
+def smart_preprocessing(text, hashtag=0, emoji=0, smiley=0, lemma=0, stop=0, bow=0, nut=0):
     # this function takes a piece of text and return the cleaned text in list format
     text_list = []
+    # remove punctuations
     p.set_options(p.OPT.URL, p.OPT.MENTION)
-    # p.set_options(p.OPT.URL, p.OPT.MENTION, p.OPT.EMOJI,p.OPT.SMILEY,p.OPT.HASHTAG)
-    text = re.sub(r'[^a-zA-Z0-9\s]', ' ', p.clean(text))
-    if hashtag==0:
-        p.set_options(p.OPT.URL, p.OPT.MENTION, p.OPT.HASHTAG)
-        text = re.sub(r'[^a-zA-Z0-9\s]', ' ', p.clean(text))
-    if emoji==0:
-        p.set_options(p.OPT.URL, p.OPT.MENTION, p.OPT.EMOJI)
-        text = re.sub(r'[^a-zA-Z0-9\s]', ' ', p.clean(text))
-    if smiley==0:
-        p.set_options(p.OPT.URL, p.OPT.MENTION, p.OPT.SMILEY)
-        text = re.sub(r'[^a-zA-Z0-9\s]', ' ', p.clean(text))
-    for w in text:
-        text_list.append(w)
+    text = p.clean(text)
+    if hashtag==1:
+        p.set_options(p.OPT.HASHTAG)
+        text = p.clean(text)
+        # do we add hashparser ???
+    if emoji==1:
+        p.set_options(p.OPT.EMOJI)
+        text = p.clean(text)
+    if smiley==1:
+        p.set_options(p.OPT.SMILEY)
+        text = p.clean(text)
+    text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
+    text_list = text.lower().split()
     #-------------------------
-    if stop==0:
-        text_list = []
+    if stop==1:
+        text_list2 = []
         stop_words = set(stopwords.words('english'))
         # REMOVE or ADD the stop words you don't want here
-        for w in text:
+        for w in text_list:
             if w not in stop_words:
-                text_list.append(w)
-    if lemma==0:
-        text_list_copy = text_list
-        text_list = []
+                text_list2.append(w)
+        text_list = text_list2
+    if lemma==1:
+        text_list2 = []
         lemmatizer = WordNetLemmatizer()
-        for w in text_list_copy:
+        for w in text_list:
+            # lemma might not work for putting, thats wierd
             lemma = lemmatizer.lemmatize(w)
-            text_list.append(lemma)
+            text_list2.append(lemma)
+        text_list = text_list2
     #--------------------------
     ## bag of word
     ## nut (not)
     
             
-        
-    
-    
-    return
+    return text_list
