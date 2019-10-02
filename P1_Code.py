@@ -17,6 +17,8 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords 
 from collections import Counter
 import matplotlib.pyplot as plt
+import json
+import _pickle as pickle
 
 ###### Task 1: Exploratory Data analysis (5 points) ######
 
@@ -175,11 +177,10 @@ def input_data_explore(data):
     ax.plot(np.log(sort_lemma_df["Count"]))
     ax.set_xlabel('Word Index (Sort by Frequency)', fontsize = 15)
     ax.set_ylabel('Token Frequency (Log Scale)', fontsize = 15)
-    ax.set_title("10. Token Log Frequency")
+    ax.set_title("Figure 1. Token Log Frequency")
     result['10. Log Token Frequency']= "See Figure 1: In question 10, we removed stop words and lemmatized all the words. The plot shows that the majority of words only occur once or twice. Therefore we might remove these words when we train the model. "
-    pp.pprint(result)
     plt.savefig("token log frequency.png")
-    return
+    return result
 
 def gold_data_explore(dev,dev_train,dev_test,devtest,INPUT):
     result = {}   
@@ -223,7 +224,7 @@ def gold_data_explore(dev,dev_train,dev_test,devtest,INPUT):
     #pl.xticks(rotation=90)
     for i ,v in enumerate(type_count):
         ax.text(v, i, str(int(type_count[i])), color='blue', fontweight='bold')
-    ax.set_title('The volcabulary growth at difference sample sizes N',fontsize=25)
+    ax.set_title('Figure 2. The volcabulary growth at difference sample sizes N',fontsize=25)
     ax.set_xlabel('Sample size', fontsize = 15)
     ax.set_ylabel('Number of types', fontsize = 15)
     plt.savefig('volcabulary growth.png')
@@ -268,13 +269,28 @@ def gold_data_explore(dev,dev_train,dev_test,devtest,INPUT):
 
 if __name__ == "__main__":
     INPUT = load_data('P1_Data/Dev/INPUT.txt')
-    input_data_explore(INPUT)
+    input_result = input_data_explore(INPUT)
     
     dev = load_data('P1_Data/Gold/dev.txt')
     dev_train = load_data('P1_Data/Gold/train.txt')
     dev_test = load_data('P1_Data/Gold/test.txt')
     devtest = load_data('P1_Data/Gold/devtest.txt')
-    pp.pprint(gold_data_explore(dev,dev_train,dev_test,devtest,INPUT))
+    gold_result = gold_data_explore(dev,dev_train,dev_test,devtest,INPUT)
+
+    fout = "task1_result.txt"
+    fo = open(fout, "w")
+
+    for k, v in input_result.items():
+        fo.write(str(k) + ' >>> '+ str(v) + '\n\n')
+        
+    for k, v in gold_result.items():
+        fo.write(str(k) + ' >>> '+ str(v) + '\n\n')
+
+    fo.close()
+    
+        
+    
+    
 
 
 
