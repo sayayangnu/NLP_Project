@@ -14,6 +14,7 @@ import re
 from nltk.util import ngrams
 from nltk.tokenize import TweetTokenizer
 from nltk.stem import WordNetLemmatizer
+from nltk.stem.porter import *
 from nltk.corpus import stopwords 
 from collections import Counter
 import matplotlib.pyplot as plt
@@ -68,10 +69,11 @@ def smart_preprocessing(text, hashtag=0, emoji=0, smiley=0, lemma=0, stop=0, bow
     if lemma==1:
         text_list2 = []
         lemmatizer = WordNetLemmatizer()
+        stemmer = PorterStemmer()
         for w in text_list:
             # lemma might not work for putting, thats wierd
-            lemma = lemmatizer.lemmatize(w)
-            text_list2.append(lemma)
+            stem = stemmer.stem(w)
+            text_list2.append(stem)
         text_list = text_list2
     #--------------------------
     ## bag of word
