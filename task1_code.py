@@ -17,8 +17,6 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords 
 from collections import Counter
 import matplotlib.pyplot as plt
-import json
-import _pickle as pickle
 
 ###### Task 1: Exploratory Data analysis (5 points) ######
 
