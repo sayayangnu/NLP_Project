@@ -227,7 +227,7 @@ def gold_data_explore(dev,dev_train,dev_test,devtest,INPUT):
                          str(len_dev+len_dev_train+len_dev_test+len_devtest)
                          +"\n"+"(dev+train+test"+"\n"+"+devtest)"]
     fig = plt.figure(figsize=(13,8),dpi = 80)
-    ax = fig.add_subplot(111)
+    ax = fig.add_subplot(1,1,1)
     ax.barh(range(len(type_count)),type_count,color='lightblue',tick_label=sample_size_label)
     #pl.xticks(rotation=90)
     for i ,v in enumerate(type_count):
