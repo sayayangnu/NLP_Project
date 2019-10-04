@@ -38,6 +38,41 @@ def load_data(data):
      'text': texts
     })
     return df
+# delete transfer word like 'but' 'however'
+trans = '''but,still,yet,however,nevertheless,nonetheless,on the contrary,in spite of, in spite of the fact that, even though,although,despite, despite the fact that'''.split(',')
+trans = [i.strip() for i in trans]
+
+def delete_transfer(sentence):
+    
+    for i in trans:
+        loc = sentence.find(i)
+        if loc != -1:
+            sentence = sentence[loc:]
+    
+    return sentence 
+
+def deal_with_negation_yue(sentence):
+    
+    sen = re.split('[, \-!?:]+',sentence)
+    
+    for i in range(len(sen)):
+        if sen[i] == 'not':
+            
+            index_start = sentence.find(sen[i]) + len('not') + len(' ')
+            new = sentence[index_start:]
+            puc_index = find_cloes_punc(new)
+            puc_index_origin = puc_index + index_start
+            
+            add_not_part_before = sentence[index_start:puc_index_origin]
+            NOT_list = ['NOT_'+i for i in add_not_part_before.split()]
+            add_not_part = ' '.join(NOT_list)
+            
+            # -4 means delete this dealed not
+            sentence = sentence[:index_start-4] + add_not_part + sentence[puc_index_origin:]
+            
+    
+    return sentence
+
 
 def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0, nut=0):
     # this function takes a piece of text and return the cleaned text in list format
@@ -154,10 +189,18 @@ def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0,
             '["\'?,\.]':'',
             '\s+':' ', # replace multi space with one single space
             }
-    
+    # replace didn't into not
     for i, j in abbr_dict.items():
         text = text.replace(i, j)
-        
+    
+    # delete transfer
+    text = delete_transfer(text)
+    
+    # nut
+    if nut ==1:
+        text = deal_with_negation_yue(text)
+    
+    # delete punctuation
     text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
     text_list = text.split()
     #-------------------------
