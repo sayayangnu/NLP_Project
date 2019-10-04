@@ -20,6 +20,8 @@ from collections import Counter
 from nltk.corpus import stopwords 
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegressionCV
+from sklearn.model_selection import KFold
 
 
 ###### Task 1: Exploratory Data analysis (5 points) ######
@@ -81,17 +83,22 @@ def y_ize(x):
         return 1
     else:
         return 0
-'''
+
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
+
+stop_words = set(stopwords.words('english')) 
+
 def train_logit(doc):
-    cleaned_text = [clean_tweet(i) for i in doc['text']]
-    words = [j for i in cleaned_text for j in i.split() if j not in stop_words]
+    
+    words = [j for i in doc['text'] for j in i.split() if j not in stop_words]
     # word_counter -> other
     
     # generate vocabulary
     vocabulary = sorted(list(set(words)))
     # count = Counter(words)    
     # clean
-    doc['text'] = doc['text'].apply(clean_tweet)
     x = doc['text'].apply(lambda x : bagofwords(x, vocabulary))
     X = np.vstack([i for i in x])
     y = doc.label.apply(y_ize)
@@ -101,74 +108,9 @@ def train_logit(doc):
     pre = logisticRegr.predict(X)
     # accuracy
     acc_train = sum(pre ==y)/len(y)
-    print('training_accuracy = {}%'.format(str(round(acc_train,2)*100)))
-
+    #print('training_accuracy = {}%'.format(str(round(acc_train,2)*100)))
+    
     return logisticRegr
-'''
-
-'''
-Bag of word code:
-'''
-doc_path = '/Users/chenlimin/Desktop/GU course/term3/nlp/project/data/Gold/train.txt'
-
-# set pandas  for a pretty display
-pd.set_option('display.max_rows', 500)
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.width', 1000)
-
-stop_words = set(stopwords.words('english')) 
-
-doc = load_data(doc_path)
-#model = train_logit(doc)
-
-# train the model
-cleaned_text = [clean_tweet(i) for i in doc['text']]
-words = [j for i in cleaned_text for j in i.split() if j not in stop_words]
-# word_counter -> other
-
-# generate vocabulary
-vocabulary = sorted(list(set(words)))
-# count = Counter(words)    
-# clean
-doc['text'] = doc['text'].apply(clean_tweet)
-x = doc['text'].apply(lambda x : bagofwords(x, vocabulary))
-X = np.vstack([i for i in x])
-y = doc.label.apply(y_ize)
-logisticRegr = LogisticRegression()
-logisticRegr.fit(X,y)
-# performance on training set
-pre = logisticRegr.predict(X)
-# accuracy
-acc_train = sum(pre ==y)/len(y)
-print('training_accuracy = {}%'.format(str(round(acc_train,2)*100)))
-
-#################### test the model on the testing set ####################
-
-test_txt = load_data('/Users/chenlimin/Desktop/GU course/term3/nlp/project/data/Gold/test.txt')
-test_txt['text'] = test_txt['text'].apply(clean_tweet)
-
-test_x = test_txt['text'].apply(lambda x : bagofwords(x, vocabulary))
-test_x = np.vstack([i for i in test_x])
-
-# not run
-test_y = test_txt.label.apply(y_ize)
-
-test_pre = logisticRegr.predict(test_x)
-# accuracy
-acc_test = sum(test_pre ==test_y)/len(test_y)
-print('testing_accuracy = {}%'.format(str(round(acc_test,2)*100)))
-
-
-'''
-问题 & 优化版：
-0.一开始忘记lemonize
-1.尝试去增加 don't, didn't 等
-2.尝试去添加 #，emoji等词汇
-3.对词序理解，如应用n-gram
-4.看资料，学习贝叶斯分类
-5.bert，transformer，rnn
-'''
-
 
 
 
