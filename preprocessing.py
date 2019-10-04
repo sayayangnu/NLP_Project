@@ -18,7 +18,7 @@ from nltk.stem.porter import *
 from nltk.corpus import stopwords 
 from collections import Counter
 import matplotlib.pyplot as plt
-
+import emoji
 
 def load_data(data):
     # Read in the txt file and turn into a pandas df 
@@ -39,7 +39,7 @@ def load_data(data):
     })
     return df
 
-def smart_preprocessing(text, hashtag=0, emoji=0, smiley=0, stem=0, stop=0, bow=0, nut=0):
+def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0, nut=0):
     # this function takes a piece of text and return the cleaned text in list format
     text_list = []
     # remove punctuations
@@ -49,14 +49,55 @@ def smart_preprocessing(text, hashtag=0, emoji=0, smiley=0, stem=0, stop=0, bow=
         p.set_options(p.OPT.HASHTAG)
         text = p.clean(text)
         # do we add hashparser ???
-    if emoji==1:
-        p.set_options(p.OPT.EMOJI)
-        text = p.clean(text)
+    if emo==1:
+        # p.set_options(p.OPT.EMOJI)
+        # text = p.clean(text)
+        text = emoji.demojize(text)
     if smiley==1:
-        p.set_options(p.OPT.SMILEY)
-        text = p.clean(text)
+        emoticon_dict = {":-)": "smiley",
+                ":)": "smiley",
+                ":]": "smiley",
+                ":-]": "smiley",
+                ":3": "smiley",
+                ":-3": "smiley",
+                ":-D": "laugh",
+                ":D": "laugh",
+                "X-D": "laugh",
+                "XD": "laugh",
+                "8D": "laugh",
+                "8-D": "laugh",
+                "<3": "love",
+                ":-*": "kiss",
+                ":*": "kiss",
+                ":-(": "sad",
+                ":(": "sad",
+                ":-<": "sad",
+                ":<": "sad",
+                ":-C": "sad",
+                ":C": "sad",
+                ":'-(": "cry",
+                ":'(": "cry",
+                ":P": "tongue",
+                ":-P": "tongue",
+                "X-P": "tongue",
+                "XP": "tongue",
+                ";-)": "wink",
+                ";)": "wink",
+                "*-)": "wink",
+                "*)": "wink",
+                ";-]": "wink",
+                ";]": "wink",
+                ":/": "skeptical",
+                "D‑':": "skeptical",
+                "D:<": "disgust",
+                "D:": "disgust",
+                "D8": "disgust",
+                "D;": "disgust"}
+        for i, j in emoticon_dict.items():
+            text = text.replace(i, j)
+        #p.set_options(p.OPT.SMILEY)
+        #text = p.clean(text)
     text = text.lower()
-    punctuation='["\'?,\.]' # I will replace all these punctuation with ''
     abbr_dict={"what's":"what is",
             "what're":"what are",
             "who's":"who is",
@@ -110,9 +151,10 @@ def smart_preprocessing(text, hashtag=0, emoji=0, smiley=0, stem=0, stop=0, bow=
             "hasn't":"has not",
             "hadn't":"had not",
             "won't":"will not",
-            punctuation:'',
+            '["\'?,\.]':'',
             '\s+':' ', # replace multi space with one single space
             }
+    
     for i, j in abbr_dict.items():
         text = text.replace(i, j)
         
