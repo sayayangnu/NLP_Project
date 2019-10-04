@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split
 
 
 ###### Task 1: Exploratory Data analysis (5 points) ######
@@ -81,6 +82,8 @@ def bagofwords(sentence, vocabulary):
 def y_ize(x):
     if x == 'positive':
         return 1
+    elif x == 'negative':
+        return -1
     else:
         return 0
 
@@ -102,15 +105,34 @@ def train_logit(doc):
     x = doc['text'].apply(lambda x : bagofwords(x, vocabulary))
     X = np.vstack([i for i in x])
     y = doc.label.apply(y_ize)
-    logisticRegr = LogisticRegression()
-    logisticRegr.fit(X,y)
+    
+    train_x, test_x, train_y, test_y = train_test_split(X,y, train_size=0.7)
+
+    logisticRegr = LogisticRegression(multi_class='multinomial', solver='newton-cg')
+    logisticRegr.fit(train_x,train_y)
     # performance on training set
-    pre = logisticRegr.predict(X)
+    pre = logisticRegr.predict(test_x)
     # accuracy
-    acc_train = sum(pre ==y)/len(y)
-    #print('training_accuracy = {}%'.format(str(round(acc_train,2)*100)))
+    acc_test = sum(pre ==test_y)/len(test_y)
+    print('testing_accuracy = {}%'.format(str(round(acc_test,2)*100)))
     
     return logisticRegr
+
+
+# logistic_model = train_logit(d2)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
