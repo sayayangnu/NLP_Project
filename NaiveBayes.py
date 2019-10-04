@@ -44,18 +44,6 @@ def clean_tweet(text):
     return clean_text
 
 
-'''
-BELOW IS JUST FOR TIANYI'S RAW TESTING PURPOSE
-We will need dynamic cleaning
-We need to use a bigger dataset 
-'''    
-df_train=load_data('P1_data/Gold/train.txt') 
-cleaned_df = df_train.iloc[:,:2]
-cleaned_df['text']= [clean_tweet(x) for x in df_train['text']]
-''' 
-Test Code End Here 
-'''
-
 
 ### THE MODEL ###
 
@@ -106,8 +94,8 @@ def nb_cv(cleaned_df):
     return np.mean(np.asarray(Accuracy))
 
 
-
-nb_cv(cleaned_df)
+if __name__ == '__main__':
+    nb_cv(cleaned_df)
 
 
 
