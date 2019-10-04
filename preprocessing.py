@@ -180,11 +180,17 @@ def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0,
             text_list2.append(stem)
         text_list = text_list2
     #--------------------------
-    ## bag of word
     ## nut (not)
     
             
     return text_list
+
+def smart_preprocessing2(df, hashtag=0, emo=0, smiley=0, stem=0, stop=0, nut=0):
+    transfer_col = df["text"].apply(lambda x: smart_preprocessing(x, hashtag, emo, smiley, stem, stop, nut))
+    transfer_col_2 = transfer_col.apply(lambda x: ' '.join(i for i in x))
+    df_new = df
+    df_new['text']= transfer_col_2
+    return df_new
 
 if __name__ == "__main__":
     INPUT = load_data('P1_Data/Dev/INPUT.txt')
