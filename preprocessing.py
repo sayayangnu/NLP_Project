@@ -57,7 +57,7 @@ def deal_with_negation_yue(sentence):
     
     for i in range(len(sen)):
         if sen[i] == 'not':
-            print('~~~~~~~~~')
+            
             index_start = sentence.find(sen[i]) + len('not') + len(' ')
             new = sentence[index_start:]
             puc_index = find_cloes_punc(new)
