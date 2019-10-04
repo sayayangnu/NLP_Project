@@ -2,7 +2,7 @@
 
 02. Num of Char (whitespace included) >>> 1344051
 
-03. Num of Distinct Vocab >>> 17535
+03. Num of Distinct Vocab >>> 17540
 
 04.1. Avg Char per Tweet >>> 109.41
 
@@ -12,33 +12,33 @@
 
 05.2. Std Char per Token >>> 4.69
 
-06. Top 10 Types and Frequency >>> [('the', 5747), ('to', 3803), ('a', 2964), ('of', 2599), ('and', 2468), ('in', 2285), ('is', 2249), ('s', 2223), ('i', 2205), ('for', 1950)]
+06. Top 10 Types and Frequency >>> [('the', 5747), ('to', 3803), ('a', 2964), ('of', 2599), ('and', 2468), ('in', 2285), ('is', 2249), ('s', 2218), ('i', 2205), ('for', 1950)]
 
 07. Token / Type Ratio >>> 12.52
 
-08.1. Num of Distinct ngram word (n=2) >>> 94650
+08.1. Num of Distinct ngram word (n=2) >>> 94628
 
-08.2. Num of Distinct ngram word (n=3) >>> 128823
+08.2. Num of Distinct ngram word (n=3) >>> 128791
 
-08.3. Num of Distinct ngram word (n=4) >>> 127788
+08.3. Num of Distinct ngram word (n=4) >>> 127755
 
-08.4. Num of Distinct ngram word (n=5) >>> 118324
+08.4. Num of Distinct ngram word (n=5) >>> 118291
 
-09.1. Num of Distinct ngram char (n=2) >>> 956
+09.1. Num of Distinct ngram char (n=2) >>> 952
 
-09.2. Num of Distinct ngram char (n=3) >>> 6431
+09.2. Num of Distinct ngram char (n=3) >>> 6417
 
-09.3. Num of Distinct ngram char (n=4) >>> 18224
+09.3. Num of Distinct ngram char (n=4) >>> 18219
 
-09.4. Num of Distinct ngram char (n=5) >>> 25252
+09.4. Num of Distinct ngram char (n=5) >>> 25248
 
-09.5. Num of Distinct ngram char (n=6) >>> 23979
+09.5. Num of Distinct ngram char (n=6) >>> 23953
 
-09.6. Num of Distinct ngram char (n=7) >>> 19103
+09.6. Num of Distinct ngram char (n=7) >>> 19056
 
 10. Log Token Frequency >>> See Figure 1: In question 10, we removed stop words and lemmatized all the words. The plot shows that the majority of words only occur once or twice. Therefore we might remove these words when we train the model. 
 
-11. Num of OOV >>> 2252
+11. Num of OOV >>> 2251
 
 12. Plot Vocabulary Growth >>> See Figure 2
 

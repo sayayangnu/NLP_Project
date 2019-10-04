@@ -7,11 +7,16 @@ https://anyl580.github.io/project1.html
 
 https://docs.google.com/document/d/1BlO3Gs71Xqrjej-4aFIbXfSPNRL6OQLoBhUVoG941eU/edit
 
+## Semeval2017
+https://github.com/cbaziotis/datastories-semeval2017-task4/tree/master/dataset/Subtask_A/gold
+
 ## Task 1:
 15/15
 
 ## Task 2:
-1. Preprocessing - Ivy
+1. Preprocessing - Ivy 
+BOW + stop need to discuss
+
 2. Logistic Regression - Limin
 3. Naive Bayes - Tianyi
 4. Vader - Ju

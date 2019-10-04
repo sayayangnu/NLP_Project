@@ -213,18 +213,28 @@ def gold_data_explore(dev,dev_train,dev_test,devtest,INPUT):
     gold_four_type_count = len(all_type_four)
     
     # Plot vocabulary growth at difference sample sizes N.
+    len_INPUT = len(INPUT)
+    len_dev = len(dev)
+    len_dev_train = len(dev_train)
+    len_dev_test = len(dev_test)
+    len_devtest = len(devtest)
     type_count = [input_type_count, gold_one_type_count, gold_two_type_count,
                   gold_three_type_count, gold_four_type_count]
-    sample_size = ['INPUT',1,2,3,4]    
+    sample_size_label = [str(len_INPUT)+"\n"+"(INPUT)",str(len_dev)+"\n"+"(dev)",
+                         str(len_dev+len_dev_train)+"\n"+"(dev+train)",
+                         str(len_dev+len_dev_train+len_dev_test)
+                         +"\n"+"(dev+train+test)",
+                         str(len_dev+len_dev_train+len_dev_test+len_devtest)
+                         +"\n"+"(dev+train+test"+"\n"+"+devtest)"]
     fig = plt.figure(figsize=(13,8),dpi = 80)
-    ax = fig.add_subplot(111)
-    ax.barh(range(len(type_count)), type_count,color='lightblue',tick_label=sample_size)
+    ax = fig.add_subplot(1,1,1)
+    ax.barh(range(len(type_count)),type_count,color='lightblue',tick_label=sample_size_label)
     #pl.xticks(rotation=90)
     for i ,v in enumerate(type_count):
         ax.text(v, i, str(int(type_count[i])), color='blue', fontweight='bold')
     ax.set_title('Figure 2. The volcabulary growth at difference sample sizes N',fontsize=25)
-    ax.set_xlabel('Sample size', fontsize = 15)
-    ax.set_ylabel('Number of types', fontsize = 15)
+    ax.set_ylabel('Sample size', fontsize = 15)
+    ax.set_xlabel('Number of types', fontsize = 15)
     plt.savefig('volcabulary growth.png')
     result['12. Plot Vocabulary Growth'] = "See Figure 2"
 
