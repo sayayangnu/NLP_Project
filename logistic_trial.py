@@ -124,42 +124,10 @@ def train_logit(doc):
 
 if __name__ == '__main__':
     d1 = load_data('P1_Data/Gold/merged.txt')
-    d2 = smart_preprocessing2(d1)
+    d2 = smart_preprocessing2(d1, hashtag=1, emo=1, smiley=1, stem=1, stop=1, nut=1, encheck=1, delete_num=1)
     m1 = train_logit(d2)
     
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
