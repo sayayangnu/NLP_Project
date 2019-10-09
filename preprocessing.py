@@ -19,6 +19,8 @@ from nltk.corpus import stopwords
 from collections import Counter
 import matplotlib.pyplot as plt
 import emoji
+import enchant
+
 
 def load_data(data):
     # Read in the txt file and turn into a pandas df 
@@ -74,7 +76,7 @@ def deal_with_negation_yue(sentence):
     return sentence
 
 
-def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0, nut=0):
+def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0, nut=0, encheck=0, delete_num=0):
     # this function takes a piece of text and return the cleaned text in list format
     text_list = []
     # remove punctuations
@@ -214,6 +216,11 @@ def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0,
             if w not in stop_words:
                 text_list2.append(w)
         text_list = text_list2
+    #--------------------------
+    if encheck==1:
+        en = enchant.Dict("en_US")
+        text_list = [i for i in text_list if en.check(i)]
+    
     if stem==1:
         text_list2 = []
         stemmer = PorterStemmer()
@@ -225,10 +232,13 @@ def smart_preprocessing(text, hashtag=0, emo=0, smiley=0, stem=0, stop=0, bow=0,
     #--------------------------
     ## nut (not)
     
-            
+    if delete_num==1:
+        text_list = [i for i in text_list if bool(re.search(r'\d', i)) == False]
+    ## nut (not)
+    
     return text_list
 
-def smart_preprocessing2(df, hashtag=0, emo=0, smiley=0, stem=0, stop=0, nut=0):
+def smart_preprocessing2(df, hashtag=0, emo=0, smiley=0, stem=0, stop=0, nut=0, encheck=0, delete_num=0):
     transfer_col = df["text"].apply(lambda x: smart_preprocessing(x, hashtag, emo, smiley, stem, stop, nut))
     transfer_col_2 = transfer_col.apply(lambda x: ' '.join(i for i in x))
     df_new = df

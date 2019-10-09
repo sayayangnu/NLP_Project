@@ -23,7 +23,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.model_selection import KFold
 from sklearn.model_selection import train_test_split
-
+from preprocessing import *
 
 ###### Task 1: Exploratory Data analysis (5 points) ######
 
@@ -122,7 +122,12 @@ def train_logit(doc):
 # logistic_model = train_logit(d2)
 
 
-
+if __name__ == '__main__':
+    d1 = load_data('P1_Data/Gold/merged.txt')
+    d2 = smart_preprocessing2(d1)
+    m1 = train_logit(d2)
+    
+    
 
 
 
